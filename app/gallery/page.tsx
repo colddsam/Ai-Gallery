@@ -24,7 +24,7 @@ export default function Gallery() {
               <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
               <p className="text-gray-600 mb-4">${item.price.toFixed(2)}</p>
               <Link
-                href={`/product/${item.id}`}
+                href={`/gallery/${item.id}`}
                 className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
               >
                 View Details
