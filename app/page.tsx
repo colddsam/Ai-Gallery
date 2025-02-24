@@ -1,11 +1,14 @@
-import Image from "next/image"
+"use client"
+
+// import Image from "next/image"
 // import Link from "next/link"
 import { TextGenerateEffect } from "./components/ui/text-generate-effect"
 import { AuroraText } from "./components/ui/aurora-text"
 import { InteractiveHoverButton } from './components/ui/interactiveHoverButton';
 import { FeaturesSectionDemo } from "./components/ui/features";
 import { PricingSection } from "./components/ui/pricing";
-
+import  ModelViewer  from "./components/ui/modelViewer";
+// import "./styles/vignette.css"
 export default function Home() {
 
   const words=`Discover unique AI-generated anime wallpapers and bring your devices to life with stunning visuals.`
@@ -24,8 +27,8 @@ export default function Home() {
         </Link> */}
         <InteractiveHoverButton href='gallery'>Explore Gallery</InteractiveHoverButton>
         </div>
-        <div className="relative h-[40%] md:h-96 w-screen md:w-[40%]">
-          <Image src="/placeholder.png" alt="Featured AI Anime Wallpaper" fill className="object-cover md:rounded-lg" />
+        <div className="relative h-[40%] md:h-full  overflow-visible w-screen md:w-[40%]  ">
+          <ModelViewer/>
         </div>
       </div>
       <div className='h-auto w-full box-border overflow-x-hidden flex flex-col items-center justify-center'>

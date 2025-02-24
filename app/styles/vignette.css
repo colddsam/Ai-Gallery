@@ -1,0 +1,10 @@
+.vignette::after{
+content: "";
+position: absolute;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+box-shadow: inset 0 0 30px 25px rgba(255,255,255,1);
+}
+
