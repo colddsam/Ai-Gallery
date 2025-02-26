@@ -13,7 +13,7 @@ export default function Home() {
 
   const words=`Discover unique AI-generated anime wallpapers and bring your devices to life with stunning visuals.`
   return (
-    <div className='h-auto w-screen mx-auto md:px-6 px-0  flex flex-col justify-center items-center  '>
+    <div className='h-auto w-screen mx-auto md:px-6 px-0 flex flex-col justify-center items-center  '>
     <div className="h-screen w-full flex flex-col py-16 md:flex-row justify-between items-center ">
       <div className="flex flex-col justify-center h-[60%] md:h-full items-center md:items-start w-full md:w-[60%] md:mr-6 box-border ">
           <AuroraText>Welcome to AI Anime Gallery</AuroraText>

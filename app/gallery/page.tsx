@@ -1,39 +1,91 @@
-import Image from "next/image"
-import Link from "next/link"
+"use client"
 
-const galleryItems = [
-  { id: 1, title: "Neon City", price: 9.99 },
-  { id: 2, title: "Sakura Dreams", price: 12.99 },
-  { id: 3, title: "Cyber Samurai", price: 14.99 },
-  { id: 4, title: "Mecha Uprising", price: 11.99 },
-  { id: 5, title: "Ethereal Garden", price: 10.99 },
-  { id: 6, title: "Astro Idol", price: 13.99 },
-]
+import { PlaceholdersAndVanishInput } from "../components/ui/placeholders-and-vanish-input";
+import { Carousel, Card } from "../components/ui/apple-cards-carousel";
 
-export default function Gallery() {
-  return (
-    <div className="container mx-auto px-6 py-16">
-      <h1 className="text-4xl font-bold mb-8 text-center">AI Anime Wallpaper Gallery</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {galleryItems.map((item) => (
-          <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="relative h-64">
-              <Image src={`/placeholder.png?text=${item.title}`} alt={item.title} fill className="object-cover" />
-            </div>
-            <div className="p-4 bg-black">
-              <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
-              <p className="text-gray-600 mb-4">${item.price.toFixed(2)}</p>
-              <Link
-                href={`/gallery/${item.id}`}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
-              >
-                View Details
-              </Link>
-            </div>
-          </div>
-        ))}
+export default function gallery() {
+
+const data = [
+  {
+    category: "Artificial Intelligence",
+    title: "You can do more with AI.",
+    src: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=3556&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    category: "Productivity",
+    title: "Enhance your productivity.",
+    src: "https://images.unsplash.com/photo-1531554694128-c4c6665f59c2?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    category: "Product",
+    title: "Launching the new Apple Vision Pro.",
+    src: "https://images.unsplash.com/photo-1713869791518-a770879e60dc?q=80&w=2333&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+
+  {
+    category: "Product",
+    title: "Maps for your iPhone 15 Pro Max.",
+    src: "https://images.unsplash.com/photo-1599202860130-f600f4948364?q=80&w=2515&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    category: "iOS",
+    title: "Photography just got better.",
+    src: "https://images.unsplash.com/photo-1602081957921-9137a5d6eaee?q=80&w=2793&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    category: "Hiring",
+    title: "Hiring for a Staff Software Engineer",
+    src: "https://images.unsplash.com/photo-1511984804822-e16ba72f5848?q=80&w=2048&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    category: "Game",
+    title: "Game for a Staff Software Industry",
+    src: "https://images.unsplash.com/photo-1511984804822-e16ba72f5848?q=80&w=2048&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+];
+
+   const placeholders = [
+    "What's the first rule of Fight Club?",
+    "Who is Tyler Durden?",
+    "Where is Andrew Laeddis Hiding?",
+    "Write a Javascript method to reverse a string",
+    "How to assemble your own PC?",
+  ];
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("submitted");
+  };
+
+    const cards = data.map((card) => (
+      <Card key={card.src} card={card}  />
+    ));
+   return (
+    <div className="h-auto w-screen mx-auto px-0 flex flex-col justify-center items-center overflow-auto">
+      <div className="h-auto w-full flex flex-col py-16 justify-between items-center ">
+        <div className="w-full flex flex-row justify-center items-center h-[10vh] md:h-[25vh]">
+          <PlaceholdersAndVanishInput
+            placeholders={placeholders}
+            onChange={handleChange}
+            onSubmit={onSubmit}
+          />
+        </div>
+        <div className="h-auto w-full box-border overflow-x-hidden flex flex-col items-center justify-center">
+          <h2 className="text-center text-4xl font-bold tracking-tighter md:text-5xl lg:text-7xl ">
+            Category
+          </h2>
+          <Carousel items={cards} />
+        </div>
+      </div>
+      <div className="h-auto w-full box-border overflow-x-hidden flex flex-col items-center justify-center">
+        <h2 className="text-center text-4xl font-bold tracking-tighter md:text-5xl lg:text-7xl ">
+          Trending
+        </h2>
       </div>
     </div>
-  )
-}
+  );
 
+}
