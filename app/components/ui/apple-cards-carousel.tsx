@@ -28,32 +28,49 @@ export const CarouselContext = createContext<{
 });
 
 // Carousel Component
-export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
+export const Carousel = ({ items}: CarouselProps) => {
   const carouselRef = React.useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Initialize scroll position and check scrollability
-  useEffect(() => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollLeft = initialScroll;
-      checkScrollability();
-    }
-  }, [initialScroll]);
+// useEffect for setting initial scroll
+useEffect(() => {
+  if (carouselRef.current) {
+    carouselRef.current.scrollLeft = 0; // Ensure it starts from 0
+    setTimeout(checkScrollability, 100); // Ensure scrollability updates after DOM update
+  }
+}, []);
+
 
   // Check if the carousel can scroll left or right
-  const checkScrollability = () => {
-    if (carouselRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
-    }
-  };
+const checkScrollability = () => {
+  if (carouselRef.current) {
+    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+    
+    // Fix: Prevent overscroll calculation errors
+    const maxScrollLeft = scrollWidth - clientWidth;
+    
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft < maxScrollLeft - 1); // Small offset to avoid extra scrolling
+  }
+};
+
 
   // Scroll functions
   const scrollLeft = () => carouselRef.current?.scrollBy({ left: -300, behavior: "smooth" });
-  const scrollRight = () => carouselRef.current?.scrollBy({ left: 300, behavior: "smooth" });
+  const scrollRight = () => {
+  if (carouselRef.current) {
+    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+    const maxScrollLeft = scrollWidth - clientWidth;
+    
+    // Fix: Prevent scrolling beyond the last item
+    const newScrollLeft = Math.min(scrollLeft + 300, maxScrollLeft);
+    carouselRef.current.scrollTo({ left: newScrollLeft, behavior: "smooth" });
+  }
+};
+
 
   // Handle closing the card and scroll to it
   const handleCardClose = (index: number) => {
@@ -73,14 +90,14 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
 
   return (
     <CarouselContext.Provider value={{ onCardClose: handleCardClose, currentIndex }}>
-      <div className="relative w-full">
+      <div className="relative w-full ">
         <div
-          className="flex w-full overflow-x-scroll overscroll-x-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]"
+          className=" flex w-full overflow-x-scroll overscroll-x-auto my-6 scroll-smooth [scrollbar-width:none] "
           ref={carouselRef}
           onScroll={checkScrollability}
         >
-          <div className={cn("absolute right-0 z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l")} />
-          <div className={cn("flex flex-row justify-start gap-4 pl-4 max-w-7xl mx-auto")}>
+          <div className={cn("absolute right-0 z-[1000] h-auto w-[5%] pr-5 overflow-hidden bg-gradient-to-l ")} />
+          <div className={cn("flex flex-row justify-start gap-4  max-w-7xl ")}>
             {items.map((item, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -90,17 +107,17 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                   transition: { duration: 0.5, delay: 0.2 * index, ease: "easeOut", once: true },
                 }}
                 key={"card" + index}
-                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
+                className="rounded-3xl"
               >
                 {item}
               </motion.div>
             ))}
           </div>
         </div>
-        <div className="flex justify-end gap-2 mr-10">
+        <div className="flex justify-end gap-2 mr-10 ">
           <button
             type="button"
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-40 h-8 w-8 md:h-10 md:w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
             onClick={scrollLeft}
             disabled={!canScrollLeft}
             aria-label="Scroll Left"
@@ -109,7 +126,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
           </button>
           <button
             type="button"
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-40 h-8 w-8 md:h-10 md:w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
             onClick={scrollRight}
             disabled={!canScrollRight}
             aria-label="Scroll Right"

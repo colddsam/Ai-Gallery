@@ -1,9 +1,18 @@
 "use client"
 
+import Image from 'next/image'
 import { PlaceholdersAndVanishInput } from "../components/ui/placeholders-and-vanish-input";
 import { Carousel, Card } from "../components/ui/apple-cards-carousel";
+import { BlurFade } from "../components/ui/blur-fade";
 
 export default function gallery() {
+
+  const images = Array.from({ length: 9 }, (_, i) => {
+  const isLandscape = i % 2 === 0;
+  const width = isLandscape ? 800 : 600;
+  const height = isLandscape ? 600 : 800;
+  return `https://picsum.photos/seed/${i + 1}/${width}/${height}`;
+});
 
 const data = [
   {
@@ -65,25 +74,48 @@ const data = [
     ));
    return (
     <div className="h-auto w-screen mx-auto px-0 flex flex-col justify-center items-center overflow-auto">
-      <div className="h-auto w-full flex flex-col py-16 justify-between items-center ">
-        <div className="w-full flex flex-row justify-center items-center h-[10vh] md:h-[25vh]">
+      <div className="h-auto w-full flex flex-col  justify-between items-center ">
+        <div className="w-full flex flex-row justify-center items-center h-[10vh] md:h-[25vh] mt-20 md:mt-10">
           <PlaceholdersAndVanishInput
             placeholders={placeholders}
             onChange={handleChange}
             onSubmit={onSubmit}
           />
         </div>
-        <div className="h-auto w-full box-border overflow-x-hidden flex flex-col items-center justify-center">
-          <h2 className="text-center text-4xl font-bold tracking-tighter md:text-5xl lg:text-7xl ">
+
+       </div>
+               <div className=" h-auto w-full box-border overflow-x-hidden flex flex-col items-center justify-center">
+          <h2 className="relative inline-flex overflow-hidden mt-3 md:mt-0 text-4xl font-bold tracking-tighter md:text-5xl lg:text-7xl pb-0 md:pb-12 px-4">
             Category
           </h2>
           <Carousel items={cards} />
         </div>
-      </div>
-      <div className="h-auto w-full box-border overflow-x-hidden flex flex-col items-center justify-center">
-        <h2 className="text-center text-4xl font-bold tracking-tighter md:text-5xl lg:text-7xl ">
+      <div className="h-auto w-full box-border overflow-x-hidden flex flex-col items-center justify-center ">
+        <h2 className="relative inline-flex overflow-hidden text-4xl font-bold tracking-tighter md:text-5xl lg:text-7xl py-0 mt-3 md:py-12">
           Trending
-        </h2>
+         </h2>
+         <div className="px-4 h-auto w-full py-6 ">
+           <div className="columns-2 gap-4 sm:columns-3">
+{images.map((imageUrl, idx) => {
+  const isLandscape = idx % 2 === 0;
+  const width = isLandscape ? 800 : 600;
+  const height = isLandscape ? 600 : 800;
+  
+  return (
+    <BlurFade key={imageUrl} delay={0.25 + idx * 0.05} inView>
+      <Image
+        className="mb-4 size-full rounded-lg object-contain"
+        src={imageUrl}
+        alt={`Random stock image ${idx + 1}`}
+        width={width}
+        height={height}
+      />
+    </BlurFade>
+  );
+})}
+
+      </div>
+         </div>
       </div>
     </div>
   );
